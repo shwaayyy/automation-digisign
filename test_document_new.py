@@ -138,7 +138,7 @@ def test_web2_2_2(driver):
     test_web2_2_1(driver, is_filled=True)
 
 
-def test_web_2_2_3(driver):
+def test_web2_2_3(driver):
     """isi form penerima dokumen dengan nama kosong"""
     test_web1_1(driver)
 
@@ -154,7 +154,7 @@ def test_web_2_2_3(driver):
     delay(2)
 
 
-def test_web_2_2_4(driver):
+def test_web2_2_4(driver):
     """isi form penerima dokumen dengan spasi saja"""
     test_web1_1(driver)
 
@@ -696,8 +696,11 @@ def test_web3_9(driver):
     delay(7)
 
 
-def test_web3_10(driver):
+def test_web3_10(driver, **kwargs):
     """Menyetujui dokumen untuk di tandatangani"""
+    used = kwargs.get("used", False)
+    if used is False:
+        test_web3_9(driver)
     datetime_test = datetime.now()
 
     driver.execute_script("window.open('about:blank','tab2')")
@@ -847,6 +850,199 @@ def test_web4_6(driver):
 
 def test_web4_7(driver):
     test_web4_6(driver)
-    test_web3_10(driver)
+    test_web3_10(driver, used=True)
 
 
+def test_web5_1(driver, **kwargs):
+    """Masuk ke dokumen yang ingin di cek"""
+    is_used = kwargs.get('used', False)
+    otp = kwargs.get('otp_type', "sms")
+
+    if is_used is False:
+        if otp is "sms":
+            form.username(driver).send_keys("wahyuhi" + Keys.ENTER)
+            form.password(driver).send_keys("Kijang321!" + Keys.ENTER)
+            doc.choose_account(driver).click()
+        elif otp is "email":
+            form.username(driver).send_keys("ditest6@tandatanganku.com" + Keys.ENTER)
+            form.password(driver).send_keys("Coba1234", Keys.ENTER)
+
+    delay(2)
+
+    doc.need_sign(driver).click()
+    doc.latest_inbox(driver).click()
+
+    try:
+        assert doc.canvas(driver) is not None
+        delay(2)
+    except Exception as e:
+        raise e
+
+
+def test_web5_2(driver):
+    """OTP Salah"""
+    test_web5_1(driver)
+
+    doc.button_proses_sign_one(driver).click()
+    delay(2)
+    doc.btn_otp_email(driver).click()
+    doc.otp_input_number(driver).send_keys("002383")
+
+    doc.btn_prosign(driver).click()
+    doc.btn_saya_yakin(driver).click()
+
+    try:
+        assert doc.swal_otp_none(driver) is not None
+    except Exception as e:
+        raise e
+
+    delay(5)
+
+
+def test_web5_3(driver, **kwargs):
+    """semi-automation because its receiving and sending otp"""
+    # OTP Email pada saat cek dokumen
+    otp = kwargs.get("otp", "email")
+    is_used = kwargs.get('used', False)
+    denial = kwargs.get('denial', False)
+    test_web5_1(driver, used=is_used, otp_type=otp)
+
+    doc.button_proses_sign_one(driver).click()
+    delay(2)
+
+    if denial is True:
+        doc.label_tidak(driver).click()
+        delay(3)
+        doc.text_area_reason(driver).send_keys("testing")
+
+    if otp is "email":
+        doc.btn_otp_email(driver).click()
+    else:
+        doc.btn_otp_sms(driver).click()
+
+    delay(20)
+
+    doc.btn_prosign(driver).click()
+    doc.btn_saya_yakin(driver).click()
+
+    delay(7)
+
+
+def test_web5_4(driver, **kwargs):
+    """semi-automation because its receiving and sending otp"""
+    denial = kwargs.get('denial', False)
+    test_web2_3_3(driver, seal=True)
+
+    doc.btn_add_sign(driver).click()
+
+    doc.lock_sign_1(driver).click()
+    doc.btn_set_email(driver).click()
+
+    doc.btn_send_doc(driver).click()
+    doc.btn_process_send_doc(driver).click()
+    delay(3)
+    doc.confirm_after_send_doc(driver).click()
+    delay(2)
+
+    driver.execute_script("window.open('about:blank','tab2')")
+    driver.switch_to.window(driver.window_handles[1])
+    driver.get("https://app.tandatanganku.com")
+
+    test_web5_3(driver, otp="sms", used=True, denial=denial)
+
+
+def test_web5_5(driver):
+    """semi-automation because its receiving and sending otp"""
+    test_web5_4(driver, denial=True)
+
+
+def test_web5_6(driver):
+    """semi-automation because its receiving and sending otp"""
+    test_web5_4(driver, denial=False)
+
+
+def test_web5_7(driver):
+    """semi-automation because its receiving and sending otp"""
+    test_web5_6(driver)
+    test_web3_10(driver, used=True)
+
+
+def test_web6_1(driver):
+    """all of this is semi-automation test because it's receiving an OTP"""
+    test_web2_5_3(driver)
+
+    driver.execute_script("window.open('about:blank','tab2')")
+    driver.switch_to.window(driver.window_handles[1])
+    driver.get("https://app.tandatanganku.com")
+
+    doc.need_sign(driver).click()
+    doc.latest_inbox(driver).click()
+
+    try:
+        assert doc.canvas(driver) is not None
+    except Exception as e:
+        raise e
+
+    delay(2)
+
+
+def test_web6_2(driver, **kwargs):
+    auto = kwargs.get('auto', True)
+    used = kwargs.get('used', False)
+    denial = kwargs.get('denial', False)
+    otp_type = kwargs.get('otp_type', 'email')
+    form.username(driver).send_keys("wahyuhi" + Keys.ENTER)
+    form.password(driver).send_keys("Kijang321!" + Keys.ENTER)
+    doc.choose_account(driver).click()
+
+    delay(3)
+
+    doc.need_sign(driver).click()
+    doc.latest_inbox(driver).click()
+
+    doc.button_proses_sign_one(driver).click()
+    delay(2)
+
+    if denial is True:
+        doc.label_tidak(driver).click()
+        delay(3)
+        doc.text_area_reason(driver).send_keys("testing")
+
+    if otp_type is "email":
+        doc.btn_otp_email(driver).click()
+    elif otp_type is "sms":
+        doc.btn_otp_sms(driver).click()
+
+    if auto is True:
+        doc.otp_input_number(driver).send_keys("002383")
+    else:
+        delay(25)
+
+    doc.btn_prosign(driver).click()
+    doc.btn_saya_yakin(driver).click()
+
+    if used is False:
+        try:
+            assert doc.swal_otp_none(driver) is not None
+        except Exception as e:
+            raise e
+
+    delay(10)
+
+
+def test_web6_3(driver):
+    test_web6_2(driver, auto=False, used=True, otp_type="sms")
+
+
+def test_web6_4(driver):
+    test_web6_2(driver, auto=False, denial=True, otp_type="sms")
+
+
+def test_web6_5(driver):
+    test_web6_2(driver, auto=False, denial=False, otp_type="sms")
+
+
+def test_web6_6(driver):
+    test_web6_5(driver)
+
+    test_web3_10(driver, used=True)
