@@ -11,8 +11,8 @@ from webdriver_manager.core.utils import ChromeType
 url = {
     "prod": "https://app.digisign.id",
     "test": "https://app.tandatanganku.com",
-    "mail-testing": "https://mail.tandatanganku.id",
-    "mail-prod": "https://mail.digisign.id",
+    "mail-testing": "https://mail.tandatanganku.com",
+    "mail-digi": "https://mail.digi-id.id",
     "dummy": "https://www.jetbrains.com/"
 }
 
@@ -55,7 +55,7 @@ def pytest_runtest_makereport(item, call):
         browser = item.funcargs['driver']
         try:
             screenshot = browser.get_screenshot_as_png()
-            screenshot_b64 = base64.b64encode(screenshot).decode("utf-8")
+            screenshot_b64 = base64.b64encode(screenshot).decode("utf-8", "ignore")
             extra.append(extras.image(screenshot_b64, "Screenshot"))
         except Exception as e:
             print("Couldn't get screenshot")
