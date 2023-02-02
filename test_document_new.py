@@ -270,8 +270,8 @@ def test_web2_3_4(driver, **kwargs):
     is_corp = kwargs.get('corp', False)
     test_web1_1(driver, seal=is_corp)
 
-    doc.email_first_receiver(driver).send_keys("ditest6@tandatanganku.com")
     doc.name_first_receiver(driver).send_keys("digi")
+    doc.email_first_receiver(driver).send_keys("ditest6@tandatanganku.com")
     Select(doc.select_action_need(driver)).select_by_visible_text("Dibutuhkan Paraf")
 
     doc.btn_detail_doc(driver).click()
@@ -489,9 +489,9 @@ def test_web2_11(driver):
     mail.input_password(driver).send_keys("ditest123" + Keys.ENTER)
     delay(5)
 
-    for i in range(10):
+    for i in range(5):
         mail.refresh(driver).click()
-        delay(1.5)
+        delay(1)
 
     ActionChains(driver).double_click(mail.msg_list_1(driver)).perform()
 
@@ -630,22 +630,45 @@ def test_web3_5(driver):
     test_web3_4(driver, otp_code="892389")
 
 
-def test_web3_6(driver):
+def test_web3_6(driver, **kwargs):
     """OTP Email pada saat menandatangani dokumen"""
     # semi-automation because its receiving and sending otp Email
-    form.username(driver).send_keys("ditest6@tandatanganku.com" + Keys.ENTER)
-    form.password(driver).send_keys("Coba1234" + Keys.ENTER)
-    doc.need_sign(driver).click()
-    doc.latest_inbox(driver).click()
+    otp_auto_use = kwargs.get("otp_auto_use", False)
 
-    doc.button_proses_sign_one(driver).click()
-    doc.btn_otp_email(driver).click()
+    if otp_auto_use is False:
+        form.username(driver).send_keys("ditest6@tandatanganku.com" + Keys.ENTER)
+        form.password(driver).send_keys("Coba1234" + Keys.ENTER)
+        doc.need_sign(driver).click()
+        doc.latest_inbox(driver).click()
 
-    delay(25)
+        doc.button_proses_sign_one(driver).click()
+        doc.btn_otp_email(driver).click()
+
+    driver.execute_script("window.open('about:blank','tab2')")
+    driver.switch_to.window(driver.window_handles[1])
+    driver.get(url_mail)
+
+    mail.input_username(driver).send_keys("ditest6@tandatanganku.com")
+    mail.input_password(driver).send_keys("ditest123" + Keys.ENTER)
+    delay(5)
+
+    for i in range(7):
+        mail.refresh(driver).click()
+        delay(1)
+
+    ActionChains(driver).double_click(mail.msg_list_1(driver)).perform()
+
+    driver.switch_to.frame(mail.iframe_main_body(driver))
+    otp = mail.otp_selector(driver).text
+
+    driver.switch_to.window(driver.window_handles[0])
+
+    doc.otp_input_number(driver).send_keys(otp)
 
     doc.btn_prosign(driver).click()
+    delay(2)
     doc.btn_saya_yakin(driver).click()
-    delay(7)
+    delay(10)
 
 
 def test_web3_7(driver):
@@ -670,17 +693,13 @@ def test_web3_7(driver):
 
 def test_web3_8(driver):
     """Menolak dokumen untuk ditandatangani"""
-    """semi-automation because its receiving and sending otp"""
+    # semi-automation because its receiving and sending otp
     test_web3_3(driver)
 
     doc.text_area_reason(driver).send_keys("testing")
     doc.btn_otp_email(driver).click()
 
-    delay(25)
-
-    doc.btn_prosign(driver).click()
-    doc.btn_saya_yakin(driver).click()
-    delay(7)
+    test_web3_6(driver, otp_auto_use=True)
 
 
 def test_web3_9(driver):
@@ -689,11 +708,7 @@ def test_web3_9(driver):
 
     doc.btn_otp_email(driver).click()
 
-    delay(25)
-
-    doc.btn_prosign(driver).click()
-    doc.btn_saya_yakin(driver).click()
-    delay(7)
+    test_web3_6(driver, otp_auto_use=True)
 
 
 def test_web3_10(driver, **kwargs):
@@ -711,9 +726,9 @@ def test_web3_10(driver, **kwargs):
     mail.input_password(driver).send_keys("ditest123" + Keys.ENTER)
     delay(5)
 
-    for i in range(10):
+    for i in range(5):
         mail.refresh(driver).click()
-        delay(1.5)
+        delay(1)
 
     ActionChains(driver).double_click(mail.msg_list_1(driver)).perform()
 
@@ -776,9 +791,12 @@ def test_web4_2(driver, **kwargs):
         doc.btn_otp_email(driver).click()
         if semi_automation is False:
             doc.otp_input_number(driver).send_keys(otp)
-            delay(10)
+            delay(7)
+
+            doc.btn_prosign(driver).click()
+            doc.btn_saya_yakin(driver).click()
         else:
-            delay(20)
+            test_web3_6(driver, otp_auto_use=True)
     elif otp_type == "sms":
         doc.btn_otp_sms(driver).click()
         if semi_automation is False:
@@ -787,11 +805,11 @@ def test_web4_2(driver, **kwargs):
         else:
             delay(20)
 
-    doc.btn_prosign(driver).click()
-    doc.btn_saya_yakin(driver).click()
+        doc.btn_prosign(driver).click()
+        doc.btn_saya_yakin(driver).click()
 
     if semi_automation:
-        delay(15)
+        delay(10)
     else:
         delay(5)
         try:
@@ -833,13 +851,8 @@ def test_web4_5(driver, **kwargs):
         doc.text_area_reason(driver).send_keys("testing")
 
     doc.btn_otp_email(driver).click()
-    delay(20)
 
-    doc.btn_prosign(driver).click()
-    delay(2)
-
-    doc.btn_saya_yakin(driver).click()
-    delay(10)
+    test_web3_6(driver, otp_auto_use=True)
 
 
 def test_web4_6(driver):
@@ -917,15 +930,16 @@ def test_web5_3(driver, **kwargs):
 
     if otp is "email":
         doc.btn_otp_email(driver).click()
+
+        test_web3_6(driver, otp_auto_use=True)
     else:
         doc.btn_otp_sms(driver).click()
+        delay(20)
 
-    delay(20)
+        doc.btn_prosign(driver).click()
+        doc.btn_saya_yakin(driver).click()
 
-    doc.btn_prosign(driver).click()
-    doc.btn_saya_yakin(driver).click()
-
-    delay(7)
+        delay(7)
 
 
 def test_web5_4(driver, **kwargs):

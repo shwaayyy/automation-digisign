@@ -19,11 +19,12 @@ url = {
 
 def driver_manager(driver):
     if driver is "chrome":
-        return webdriver.Chrome(executable_path=ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+        return webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
     elif driver is "firefox":
         return webdriver.Firefox()
 
 
+# How to run the test you can run with CLI: pytest --html=reports/report.html --self-contained-html <test_case_file>.py
 @pytest.fixture
 def driver():
     browser = driver_manager("chrome")
