@@ -31,9 +31,10 @@ def driver():
     browser.maximize_window()
     browser.implicitly_wait(20)
     browser.get(url["test"])
-    browser.delete_all_cookies()
 
     yield browser
+
+    browser.close()
 
 
 def pytest_configure(config):
@@ -45,13 +46,10 @@ def pytest_configure(config):
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    # pytest_html = item.config.pluginmanager.getplugin("html")
     outcome = yield
     report = outcome.get_result()
     extra = getattr(report, "extra", [])
-    # i = datetime.now().strftime("%d-%m-%y_%H:%M")
     if report.when == "call":
-        # screenshot_path = f"./reports/image/screenshot_{i}.png"
         browser = item.funcargs['driver']
         try:
             screenshot = browser.get_screenshot_as_png()

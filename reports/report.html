@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8"/>
     <title>report.html</title>
-    <link href="assets/style.css" rel="stylesheet" type="text/css"/>
-</head>
-<body onLoad="init()">
-<script>/* This Source Code Form is subject to the terms of the Mozilla Public
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
@@ -91,11 +90,11 @@ function addCollapse() {
     const resulttable = find('table#results-table');
     const showhideall = document.createElement('p');
     showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
-        '<a href="javascript:hideAllExtras()">Hide all details</a>';
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
     resulttable.parentElement.insertBefore(showhideall, resulttable);
 
     // Add show/hide link to each result
-    findAll('.col-result').forEach(function (elem) {
+    findAll('.col-result').forEach(function(elem) {
         const collapsed = getQueryParameter('collapsed') || 'Passed';
         const extras = elem.parentNode.nextElementSibling;
         const expandcollapse = document.createElement('span');
@@ -109,7 +108,7 @@ function addCollapse() {
         }
         elem.appendChild(expandcollapse);
 
-        elem.addEventListener('click', function (event) {
+        elem.addEventListener('click', function(event) {
             if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
                 showExtras(event.currentTarget);
             } else {
@@ -124,7 +123,7 @@ function getQueryParameter(name) {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
-function init() { // eslint-disable-line no-unused-vars
+function init () { // eslint-disable-line no-unused-vars
     resetSortHeaders();
 
     addCollapse();
@@ -133,9 +132,9 @@ function init() { // eslint-disable-line no-unused-vars
 
     sortColumn(find('.initial-sort'));
 
-    findAll('.sortable').forEach(function (elem) {
+    findAll('.sortable').forEach(function(elem) {
         elem.addEventListener('click',
-            function () {
+            function() {
                 sortColumn(elem);
             }, false);
     });
@@ -153,18 +152,18 @@ function sortTable(clicked, keyFunc) {
     const parent = document.createElement('table');
     parent.id = 'results-table';
     parent.appendChild(thead);
-    sortedRows.forEach(function (elem) {
+    sortedRows.forEach(function(elem) {
         parent.appendChild(elem);
     });
     document.getElementsByTagName('BODY')[0].appendChild(parent);
 }
 
 function sort(items, keyFunc, reversed) {
-    const sortArray = items.map(function (item, i) {
+    const sortArray = items.map(function(item, i) {
         return [keyFunc(item), i];
     });
 
-    sortArray.sort(function (a, b) {
+    sortArray.sort(function(a, b) {
         const keyA = a[0];
         const keyB = b[0];
 
@@ -177,27 +176,27 @@ function sort(items, keyFunc, reversed) {
         }
     });
 
-    return sortArray.map(function (item) {
+    return sortArray.map(function(item) {
         const index = item[1];
         return items[index];
     });
 }
 
 function keyAlpha(colIndex) {
-    return function (elem) {
+    return function(elem) {
         return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
     };
 }
 
 function keyLink(colIndex) {
-    return function (elem) {
+    return function(elem) {
         const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
         return dataCell == null ? '' : dataCell.innerText.toLowerCase();
     };
 }
 
 function keyResult(colIndex) {
-    return function (elem) {
+    return function(elem) {
         const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
             'Skipped', 'Passed'];
         return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
@@ -205,10 +204,10 @@ function keyResult(colIndex) {
 }
 
 function resetSortHeaders() {
-    findAll('.sort-icon').forEach(function (elem) {
+    findAll('.sort-icon').forEach(function(elem) {
         elem.parentNode.removeChild(elem);
     });
-    findAll('.sortable').forEach(function (elem) {
+    findAll('.sortable').forEach(function(elem) {
         const icon = document.createElement('div');
         icon.className = 'sort-icon';
         icon.textContent = 'vvv';
@@ -243,7 +242,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
     const classOutcome = outcome + ' results-table-row';
     const outcomeRows = document.getElementsByClassName(classOutcome);
 
-    for (let i = 0; i < outcomeRows.length; i++) {
+    for(let i = 0; i < outcomeRows.length; i++){
         outcomeRows[i].hidden = !elem.checked;
     }
 
@@ -253,883 +252,57 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
     notFoundMessage.hidden = !allRowsHidden;
 }
 </script>
-<h1>report.html</h1>
-<p>Report generated on 01-Feb-2023 at 23:05:09 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
-    v3.2.0</p>
-<h2>Environment</h2>
-<table id="environment">
-    <tr>
+    <h1>report.html</h1>
+    <p>Report generated on 02-Feb-2023 at 10:57:13 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
         <td>Base URL</td>
-        <td></td>
-    </tr>
-    <tr>
+        <td></td></tr>
+      <tr>
         <td>Capabilities</td>
-        <td>{}</td>
-    </tr>
-    <tr>
+        <td>{}</td></tr>
+      <tr>
         <td>Driver</td>
-        <td>None</td>
-    </tr>
-    <tr>
+        <td>None</td></tr>
+      <tr>
         <td>PIC</td>
-        <td>Wahyu Hidayat</td>
-    </tr>
-    <tr>
+        <td>Wahyu Hidayat</td></tr>
+      <tr>
         <td>Packages</td>
-        <td>{"pluggy": "1.0.0", "pytest": "6.2.5"}</td>
-    </tr>
-    <tr>
+        <td>{"pluggy": "1.0.0", "pytest": "6.2.5"}</td></tr>
+      <tr>
         <td>Platform</td>
-        <td>Windows-10-10.0.22621-SP0</td>
-    </tr>
-    <tr>
+        <td>Windows-10-10.0.22621-SP0</td></tr>
+      <tr>
         <td>Plugins</td>
-        <td>{"base-url": "2.0.0", "html": "3.2.0", "metadata": "2.0.4", "selenium": "4.0.0", "variables": "2.0.0"}</td>
-    </tr>
-    <tr>
+        <td>{"base-url": "2.0.0", "html": "3.2.0", "metadata": "2.0.4", "selenium": "4.0.0", "variables": "2.0.0"}</td></tr>
+      <tr>
         <td>Python</td>
-        <td>3.11.1</td>
-    </tr>
-    <tr>
+        <td>3.11.1</td></tr>
+      <tr>
         <td>Time Test</td>
-        <td>01-02-2023 23:04:34</td>
-    </tr>
-</table>
-
-<h2>Results</h2>
-<table id="results-table">
-    <thead id="results-table-head">
-    <tr>
-        <th class="sortable result initial-sort" col="result">Result</th>
-        <th class="sortable" col="name">Test</th>
-        <th class="sortable" col="duration">Duration</th>
-        <th class="sortable links" col="links">Links</th>
-    </tr>
-    <tr hidden="true" id="not-found-message">
-        <th colspan="4">No results found. Try to check the filters</th>
-    </tr>
-    </thead>
-    <tbody class="passed results-table-row">
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web1_1</td>
-        <td class="col-duration">32.92</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web1_1_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web1_1_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web1_2</td>
-        <td class="col-duration">29.18</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web1_2_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web1_2_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_1_1</td>
-        <td class="col-duration">35.22</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_1_1_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_1_1_0_0.png"/></a>
-            </div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Pengaturan
-                dokumen yang ingin dikirim sesuai
-                Unggah Dokumen PDF
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_1_2</td>
-        <td class="col-duration">40.85</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_1_2_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_1_2_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_2_1</td>
-        <td class="col-duration">31.92</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_2_1_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_2_1_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_2_2</td>
-        <td class="col-duration">36.07</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_2_2_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_2_2_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web_2_2_3</td>
-        <td class="col-duration">27.89</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web_2_2_3_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web_2_2_3_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web_2_2_4</td>
-        <td class="col-duration">29.33</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web_2_2_4_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web_2_2_4_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_2_5</td>
-        <td class="col-duration">30.96</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_2_5_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_2_5_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_2_6</td>
-        <td class="col-duration">33.94</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_2_6_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_2_6_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_3_1</td>
-        <td class="col-duration">38.87</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_3_1_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_3_1_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_3_2</td>
-        <td class="col-duration">29.08</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_3_2_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_3_2_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_3_3</td>
-        <td class="col-duration">31.61</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_3_3_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_3_3_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_3_4</td>
-        <td class="col-duration">34.04</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_3_4_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_3_4_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_4_1</td>
-        <td class="col-duration">41.22</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_4_1_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_4_1_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_4_2</td>
-        <td class="col-duration">36.52</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_4_2_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_4_2_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_5_1</td>
-        <td class="col-duration">42.66</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_5_1_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_5_1_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_5_2</td>
-        <td class="col-duration">43.95</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_5_2_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_5_2_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_5_3</td>
-        <td class="col-duration">46.03</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_5_3_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_5_3_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_6_1</td>
-        <td class="col-duration">46.38</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_6_1_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_6_1_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_6_2</td>
-        <td class="col-duration">46.30</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_6_2_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_6_2_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_6_3</td>
-        <td class="col-duration">45.12</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_6_3_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_6_3_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_7</td>
-        <td class="col-duration">31.69</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_7_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web2_7_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_8</td>
-        <td class="col-duration">29.53</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_8_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web2_8_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_9</td>
-        <td class="col-duration">41.39</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_9_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web2_9_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_10</td>
-        <td class="col-duration">41.47</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_10_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_10_0_0.png"/></a>
-            </div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_11</td>
-        <td class="col-duration">72.03</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_11_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_11_0_0.png"/></a>
-            </div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                Time send documents is below than email received
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web2_12</td>
-        <td class="col-duration">19.33</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web2_12_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web2_12_0_0.png"/></a>
-            </div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>14:50
-                tanggal_masuk
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_1</td>
-        <td class="col-duration">25.24</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_1_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_1_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                time to open doc 00:00:03
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_2</td>
-        <td class="col-duration">13.51</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_2_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_2_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_3</td>
-        <td class="col-duration">25.47</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_3_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_3_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                time to open doc 00:00:02
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_4</td>
-        <td class="col-duration">30.18</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_4_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_4_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                time to open doc 00:00:03
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_5</td>
-        <td class="col-duration">27.13</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_5_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_5_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                time to open doc 00:00:02
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_6</td>
-        <td class="col-duration">44.33</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_6_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_6_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_7</td>
-        <td class="col-duration">46.11</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_7_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_7_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_8</td>
-        <td class="col-duration">57.15</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_8_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_8_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                time to open doc 00:00:02
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_9</td>
-        <td class="col-duration">53.25</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_9_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web3_9_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                time to open doc 00:00:02
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web3_10</td>
-        <td class="col-duration">30.58</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web3_10_0_0.png"
-                                  target="_blank"><img src="assets/test_document_new.py__test_web3_10_0_0.png"/></a>
-            </div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                Time send documents is below than email received
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web4_1</td>
-        <td class="col-duration">52.22</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web4_1_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web4_1_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web4_2</td>
-        <td class="col-duration">50.52</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web4_2_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web4_2_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web4_3</td>
-        <td class="col-duration">56.96</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web4_3_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web4_3_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web4_4</td>
-        <td class="col-duration">58.22</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web4_4_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web4_4_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web4_5</td>
-        <td class="col-duration">53.75</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web4_5_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web4_5_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web4_6</td>
-        <td class="col-duration">51.15</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web4_6_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web4_6_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web4_7</td>
-        <td class="col-duration">75.32</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web4_7_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web4_7_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                Time send documents is below than email received
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web5_1</td>
-        <td class="col-duration">19.79</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web5_1_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web5_1_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web5_2</td>
-        <td class="col-duration">26.95</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web5_2_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web5_2_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web5_3</td>
-        <td class="col-duration">48.03</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web5_3_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web5_3_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web5_4</td>
-        <td class="col-duration">82.97</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web5_4_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web5_4_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web5_5</td>
-        <td class="col-duration">101.36</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web5_5_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web5_5_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web5_6</td>
-        <td class="col-duration">92.90</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web5_6_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web5_6_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web5_7</td>
-        <td class="col-duration">110.64</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web5_7_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web5_7_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                Time send documents is below than email received
-                <br/></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web6_1</td>
-        <td class="col-duration">61.90</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web6_1_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web6_1_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web6_2</td>
-        <td class="col-duration">35.81</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web6_2_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web6_2_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web6_3</td>
-        <td class="col-duration">63.24</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web6_3_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web6_3_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web6_4</td>
-        <td class="col-duration">57.49</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web6_4_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web6_4_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web6_5</td>
-        <td class="col-duration">62.69</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web6_5_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web6_5_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web6_6</td>
-        <td class="col-duration">59.54</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web6_6_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web6_6_0_0.png"/></a></div>
-            <div class="empty log">No log output captured.</div>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-result">Passed</td>
-        <td class="col-name">test_document_new.py::test_web6_7</td>
-        <td class="col-duration">88.28</td>
-        <td class="col-links"></td>
-    </tr>
-    <tr>
-        <td class="extra" colspan="4">
-            <div class="image"><a class="image" href="assets/test_document_new.py__test_web6_7_0_0.png" target="_blank"><img
-                    src="assets/test_document_new.py__test_web6_7_0_0.png"/></a></div>
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-                Time send documents is below than email received
-                <br/></div>
-        </td>
-    </tr>
-    </tbody>
-</table>
-</body>
-</html>
+        <td>02-02-2023 10:56:33</td></tr></table>
+    <h2>Summary</h2>
+    <p>1 tests ran in 39.84 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_document_new.py::test_web1_1</td>
+          <td class="col-duration">37.60</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="image"><a class="image" href="assets/test_document_new.py__test_web1_1_0_0.png" target="_blank"><img src="assets/test_document_new.py__test_web1_1_0_0.png"/></a></div>
+            <div class="empty log">No log output captured.</div></td></tr></tbody></table></body></html>
