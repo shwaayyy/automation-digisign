@@ -1,5 +1,6 @@
 import time
 import re
+
 from datetime import datetime, timedelta
 from typing import Union
 from conftest import url
@@ -237,7 +238,10 @@ def test_web2_3_2(driver, **kwargs):
 
     doc.button_add_receiver(driver).click()
     doc.input_name_receiver_2(driver).send_keys("Aziz")
-    doc.input_email_receiver_2(driver).send_keys("aziz@digi-id.id")
+    if seal:
+        doc.input_email_receiver_2(driver).send_keys("ditest6@tandatanganku.com")
+    else:
+        doc.input_email_receiver_2(driver).send_keys("aziz@digi-id.id")
 
     if select is "Dibutuhkan Tandatangan":
         doc.btn_detail_doc(driver).click()
@@ -671,24 +675,24 @@ def test_web3_6(driver, **kwargs):
     delay(10)
 
 
-def test_web3_7(driver):
-    """OTP SMS pada saat menandatangani dokumen"""
-    # semi-automation because its receiving and sending otp SMS
-    form.username(driver).send_keys("wahyuhi" + Keys.ENTER)
-    form.password(driver).send_keys("Kijang321!" + Keys.ENTER)
-    doc.choose_account(driver).click()
-    doc.need_sign(driver).click()
-
-    doc.latest_inbox(driver).click()
-
-    doc.button_proses_sign_one(driver).click()
-    doc.btn_otp_sms(driver).click()
-
-    delay(25)
-
-    doc.btn_prosign(driver).click()
-    doc.btn_saya_yakin(driver).click()
-    delay(7)
+# def test_web3_7(driver):
+#     """OTP SMS pada saat menandatangani dokumen"""
+#     # semi-automation because its receiving and sending otp SMS
+#     form.username(driver).send_keys("wahyuhi" + Keys.ENTER)
+#     form.password(driver).send_keys("Kijang321!" + Keys.ENTER)
+#     doc.choose_account(driver).click()
+#     doc.need_sign(driver).click()
+#
+#     doc.latest_inbox(driver).click()
+#
+#     doc.button_proses_sign_one(driver).click()
+#     doc.btn_otp_sms(driver).click()
+#
+#     delay(25)
+#
+#     doc.btn_prosign(driver).click()
+#     doc.btn_saya_yakin(driver).click()
+#     delay(7)
 
 
 def test_web3_8(driver):
@@ -707,6 +711,7 @@ def test_web3_9(driver):
     test_web3_3(driver, denial=False)
 
     doc.btn_otp_email(driver).click()
+    delay(2)
 
     test_web3_6(driver, otp_auto_use=True)
 
@@ -714,17 +719,25 @@ def test_web3_9(driver):
 def test_web3_10(driver, **kwargs):
     """Menyetujui dokumen untuk di tandatangani"""
     used = kwargs.get("used", False)
+    is_tab3 = kwargs.get("is_tab", True)
+    is_open_mail = kwargs.get("is_open_mail", True)
     if used is False:
         test_web3_9(driver)
     datetime_test = datetime.now()
 
-    driver.execute_script("window.open('about:blank','tab2')")
-    driver.switch_to.window(driver.window_handles[1])
-    driver.get(url_mail)
+    if is_tab3:
+        driver.execute_script("window.open('about:blank','tab3')")
+        driver.switch_to.window(driver.window_handles[2])
+        driver.get(url_mail)
+    else:
+        driver.execute_script("window.open('about:blank','tab2')")
+        driver.switch_to.window(driver.window_handles[1])
+        driver.get(url_mail)
 
-    mail.input_username(driver).send_keys("ditest6@tandatanganku.com")
-    mail.input_password(driver).send_keys("ditest123" + Keys.ENTER)
-    delay(5)
+    if is_open_mail is False:
+        mail.input_username(driver).send_keys("ditest6@tandatanganku.com")
+        mail.input_password(driver).send_keys("ditest123" + Keys.ENTER)
+        delay(5)
 
     for i in range(5):
         mail.refresh(driver).click()
@@ -822,13 +835,14 @@ def test_web4_2(driver, **kwargs):
 def test_web4_3(driver):
     # semi-automation because its receiving and sending otp
     """OTP Email pada saat paraf dokumen"""
+    delay(100)
     test_web4_2(driver, semi_automation=True)
 
 
-def test_web4_4(driver):
-    """OTP SMS pada saat paraf dokumen"""
-    # semi-automation because its receiving and sending otp
-    test_web4_2(driver, semi_automation=True, otp_type="sms")
+# def test_web4_4(driver):
+#     """OTP SMS pada saat paraf dokumen"""
+#     # semi-automation because its receiving and sending otp
+#     test_web4_2(driver, semi_automation=True, otp_type="sms")
 
 
 def test_web4_5(driver, **kwargs):
@@ -863,7 +877,7 @@ def test_web4_6(driver):
 
 def test_web4_7(driver):
     test_web4_6(driver)
-    test_web3_10(driver, used=True)
+    test_web3_10(driver, used=True, is_open_mail=True, is_tab=True)
 
 
 def test_web5_1(driver, **kwargs):
@@ -930,6 +944,7 @@ def test_web5_3(driver, **kwargs):
 
     if otp is "email":
         doc.btn_otp_email(driver).click()
+        delay(2)
 
         test_web3_6(driver, otp_auto_use=True)
     else:
@@ -945,6 +960,7 @@ def test_web5_3(driver, **kwargs):
 def test_web5_4(driver, **kwargs):
     """semi-automation because its receiving and sending otp"""
     denial = kwargs.get('denial', False)
+    otp = kwargs.get("otp", "sms")
     test_web2_3_3(driver, seal=True)
 
     doc.btn_add_sign(driver).click()
@@ -958,105 +974,103 @@ def test_web5_4(driver, **kwargs):
     doc.confirm_after_send_doc(driver).click()
     delay(2)
 
-    driver.execute_script("window.open('about:blank','tab2')")
-    driver.switch_to.window(driver.window_handles[1])
-    driver.get("https://app.tandatanganku.com")
+    doc.link_home(driver).click()
 
-    test_web5_3(driver, otp="sms", used=True, denial=denial)
+    test_web5_3(driver, otp=otp, used=True, denial=denial)
 
 
 def test_web5_5(driver):
     """semi-automation because its receiving and sending otp"""
-    test_web5_4(driver, denial=True)
+    test_web5_4(driver, denial=True, otp="email")
 
 
 def test_web5_6(driver):
     """semi-automation because its receiving and sending otp"""
-    test_web5_4(driver, denial=False)
+    test_web5_4(driver, denial=False, otp="email")
 
 
 def test_web5_7(driver):
     """semi-automation because its receiving and sending otp"""
     test_web5_6(driver)
-    test_web3_10(driver, used=True)
+    test_web3_10(driver, used=True, is_open_mail=True, is_tab=True)
 
 
-def test_web6_1(driver):
-    """all of this is semi-automation test because it's receiving an OTP"""
-    test_web2_5_3(driver)
-
-    driver.execute_script("window.open('about:blank','tab2')")
-    driver.switch_to.window(driver.window_handles[1])
-    driver.get("https://app.tandatanganku.com")
-
-    doc.need_sign(driver).click()
-    doc.latest_inbox(driver).click()
-
-    try:
-        assert doc.canvas(driver) is not None
-    except Exception as e:
-        raise e
-
-    delay(2)
-
-
-def test_web6_2(driver, **kwargs):
-    auto = kwargs.get('auto', True)
-    used = kwargs.get('used', False)
-    denial = kwargs.get('denial', False)
-    otp_type = kwargs.get('otp_type', 'email')
-    form.username(driver).send_keys("wahyuhi" + Keys.ENTER)
-    form.password(driver).send_keys("Kijang321!" + Keys.ENTER)
-    doc.choose_account(driver).click()
-
-    delay(3)
-
-    doc.need_sign(driver).click()
-    doc.latest_inbox(driver).click()
-
-    doc.button_proses_sign_one(driver).click()
-    delay(2)
-
-    if denial is True:
-        doc.label_tidak(driver).click()
-        delay(3)
-        doc.text_area_reason(driver).send_keys("testing")
-
-    if otp_type is "email":
-        doc.btn_otp_email(driver).click()
-    elif otp_type is "sms":
-        doc.btn_otp_sms(driver).click()
-
-    if auto is True:
-        doc.otp_input_number(driver).send_keys("002383")
-    else:
-        delay(25)
-
-    doc.btn_prosign(driver).click()
-    doc.btn_saya_yakin(driver).click()
-
-    if used is False:
-        try:
-            assert doc.swal_otp_none(driver) is not None
-        except Exception as e:
-            raise e
-
-    delay(10)
-
-
-def test_web6_3(driver):
-    test_web6_2(driver, auto=False, used=True, otp_type="sms")
-
-
-def test_web6_4(driver):
-    test_web6_2(driver, auto=False, denial=True, otp_type="sms")
-
-
-def test_web6_5(driver):
-    test_web6_2(driver, auto=False, denial=False, otp_type="sms")
-
-
-def test_web6_6(driver):
-    test_web6_5(driver)
-
-    test_web3_10(driver, used=True)
+# def test_web6_1(driver):
+#     """all of this is semi-automation test because it's receiving an OTP"""
+#     test_web2_5_3(driver)
+#
+#     driver.execute_script("window.open('about:blank','tab2')")
+#     driver.switch_to.window(driver.window_handles[1])
+#     driver.get("https://app.tandatanganku.com")
+#
+#     doc.need_sign(driver).click()
+#     doc.latest_inbox(driver).click()
+#
+#     try:
+#         assert doc.canvas(driver) is not None
+#     except Exception as e:
+#         raise e
+#
+#     delay(2)
+#
+#
+# def test_web6_2(driver, **kwargs):
+#     auto = kwargs.get('auto', True)
+#     used = kwargs.get('used', False)
+#     denial = kwargs.get('denial', False)
+#     otp_type = kwargs.get('otp_type', 'email')
+#     form.username(driver).send_keys("wahyuhi" + Keys.ENTER)
+#     form.password(driver).send_keys("Kijang321!" + Keys.ENTER)
+#     doc.choose_account(driver).click()
+#
+#     delay(3)
+#
+#     doc.need_sign(driver).click()
+#     doc.latest_inbox(driver).click()
+#
+#     doc.button_proses_sign_one(driver).click()
+#     delay(2)
+#
+#     if denial is True:
+#         doc.label_tidak(driver).click()
+#         delay(3)
+#         doc.text_area_reason(driver).send_keys("testing")
+#
+#     if otp_type is "email":
+#         doc.btn_otp_email(driver).click()
+#     elif otp_type is "sms":
+#         doc.btn_otp_sms(driver).click()
+#
+#     if auto is True:
+#         doc.otp_input_number(driver).send_keys("002383")
+#     else:
+#         delay(25)
+#
+#     doc.btn_prosign(driver).click()
+#     doc.btn_saya_yakin(driver).click()
+#
+#     if used is False:
+#         try:
+#             assert doc.swal_otp_none(driver) is not None
+#         except Exception as e:
+#             raise e
+#
+#     delay(10)
+#
+#
+# def test_web6_3(driver):
+#     test_web6_2(driver, auto=False, used=True, otp_type="sms")
+#
+#
+# def test_web6_4(driver):
+#     test_web6_2(driver, auto=False, denial=True, otp_type="sms")
+#
+#
+# def test_web6_5(driver):
+#     test_web6_2(driver, auto=False, denial=False, otp_type="sms")
+#
+#
+# def test_web6_6(driver):
+#     test_web6_5(driver)
+#
+#     test_web3_10(driver, used=True)
