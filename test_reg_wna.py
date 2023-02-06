@@ -41,10 +41,16 @@ def test_crp1_2(driver, **kwargs):
         wna.input_passport(driver).send_keys("123456789")
         if is_same:
             wna.input_kitas(driver).send_keys("123456789")
+            wna.input_kitas(driver).clear()
+            wna.input_kitas(driver).send_keys("123456789")
     else:
         wna.input_kitas(driver).send_keys("123456789")
         if is_same:
             wna.input_passport(driver).send_keys("123456789")
+            wna.input_passport(driver).clear()
+            wna.input_passport(driver).send_keys("123456789")
+
+    delay(10)
 
     wna.input_fullname(driver).send_keys("John Doe")
     wna.input_place_birth(driver).send_keys("Bangkok")
@@ -68,4 +74,4 @@ def test_crp1_3(driver):
 
 
 def test_crp1_4(driver):
-    test_crp1_2(driver, is_same=True)
+    test_crp1_2(driver, is_same=True, not_filled="kitas")
