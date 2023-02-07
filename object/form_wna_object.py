@@ -63,3 +63,11 @@ def option_onsite_face_verification_visiting(driver):
 
 def invalid_input(driver):
     return driver.find_element(By.XPATH, "//input[contains(@class, 'invalid')]")
+
+
+def kitas_error(driver):
+    return driver.find_element(By.XPATH, "//*[@id='e_kitas']")
+
+
+def passport_error(driver):
+    return driver.find_element(By.XPATH, "//*[@id='e_passport']")

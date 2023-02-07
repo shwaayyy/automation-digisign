@@ -1,4 +1,5 @@
 import base64
+import pyautogui
 from datetime import datetime
 
 import pytest
@@ -15,6 +16,8 @@ url = {
     "mail-digi": "https://mail.digi-id.id",
     "dummy": "https://www.jetbrains.com/"
 }
+
+robot = pyautogui
 
 
 def driver_manager(driver):
@@ -50,7 +53,7 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
     extra = getattr(report, "extra", [])
-    if report.when == "call":
+    if report.when == "call" or report.outcome != "passed":
         browser = item.funcargs['driver']
         try:
             screenshot = browser.get_screenshot_as_png()
