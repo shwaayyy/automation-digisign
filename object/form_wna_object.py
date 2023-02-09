@@ -127,3 +127,11 @@ def button_save_data(driver):
 
 def swal(driver):
     return driver.find_element(By.XPATH, "//*[@id='swal2-content']")
+
+
+def email_notif_err(driver):
+    return driver.find_element(By.XPATH, "//*[@id='e_email']")
+
+
+def phone_notif_err(driver):
+    return driver.find_element(By.XPATH, "//*[@id='e_handphone']")

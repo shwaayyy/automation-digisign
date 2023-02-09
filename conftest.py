@@ -18,6 +18,13 @@ url = {
     "dummy": "https://www.jetbrains.com/"
 }
 
+
+qa_team = {
+    "wahyu": "Wahyu Hidayat",
+    "aisy": "Rohadatul Aisy",
+    "latifah": "LATIFAH RAMADHANA M.E."
+}
+
 robot = pyautogui
 
 
@@ -32,7 +39,8 @@ def driver_manager(driver):
         return webdriver.Firefox()
 
 
-# How to run the test you can run with CLI: pytest --html=reports/report.html --self-contained-html <test_case_file>.py
+# How to run the test you can run with CLI: pytest --html=reports/report_reg_wna.html --self-contained-html
+# <test_case_file>.py
 @pytest.fixture
 def driver():
     browser = driver_manager("chrome")
@@ -48,7 +56,7 @@ def driver():
 
 def pytest_configure(config):
     config._metadata.update({
-        'PIC': 'Wahyu Hidayat',
+        'PIC': qa_team["wahyu"],
         'Time Test': datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
     })
 
