@@ -128,5 +128,209 @@ def test_crp1_8(driver):
         raise e
 
 
-# def test_crp1_9(driver):
+def test_crp1_9(driver):
+    test_crp1_1(driver)
+
+    wna.input_fullname(driver).send_keys("John Doe")
+    wna.input_passport(driver).send_keys("123456789")
+    wna.input_place_birth(driver).send_keys("Bangkok")
+    wna.input_nationality(driver).send_keys("Thailand")
+    Select(wna.select_year(driver)).select_by_visible_text("1993")
+    wna.button_next(driver).click()
+
+    delay(10)
+
+    wna.input_kitas(driver).send_keys("12345678")
+    wna.input_passport(driver).clear()
+
+    wna.button_next(driver).click()
+    delay(10)
+    robot.press('ctrl')
+    robot.press('alt')
+
+    try:
+        assert wna.passport_error(driver) is not None
+    except AssertionError as e:
+        raise e
+
+
+def test_crp1_10(driver, **kwargs):
+    num = kwargs.get("num", "0987654321")
+    em_num = kwargs.get("em_num_err", "email")
+    used = kwargs.get("used", False)
+    test_crp1_1(driver)
+
+    wna.input_kitas(driver).send_keys("12345678")
+    wna.input_passport(driver).send_keys("123456789")
+    wna.input_fullname(driver).send_keys("John Doe")
+    wna.input_place_birth(driver).send_keys("Bangkok")
+    wna.input_nationality(driver).send_keys("Thailand")
+    Select(wna.select_year(driver)).select_by_visible_text("1993")
+    delay(2)
+    wna.button_next(driver).click()
+
+    if used is False:
+        if em_num is "email":
+            wna.input_email(driver).send_keys("tandatangan")
+
+            delay(4)
+
+            try:
+                assert wna.email_err(driver) is not None
+            except AssertionError as e:
+                raise e
+        elif em_num is "phone":
+            wna.input_handphone(driver).send_keys(num)
+
+            delay(4)
+
+            try:
+                assert wna.phone_err(driver) is not None
+            except AssertionError as e:
+                raise e
+
+
+# def test_crp1_11(driver):
 #
+
+
+# def test_crp1_12(driver):
+#
+
+
+def test_crp1_13(driver):
+    test_crp1_10(driver, num="23", em_num_err="phone")
+
+
+def test_crp1_14(driver):
+    test_crp1_10(driver, num="897", em_num_err="phone")
+
+
+def test_crp1_15(driver):
+    test_crp1_10(driver, used=True)
+
+    wna.input_email(driver).send_keys("dstest7@tandatanganku.com")
+    wna.button_next2(driver).click()
+    delay(2)
+
+    try:
+        assert wna.invalid_email_or_phone(driver) is not None
+    except AssertionError as e:
+        raise e
+
+
+def test_crp1_16(driver, **kwargs):
+    """its semi-automation because its input a captcha"""
+    up_photo = kwargs.get("up_photo", "passport")
+    test_crp1_10(driver, used=True)
+
+    wna.input_handphone(driver).send_keys("89977882983")
+    wna.input_email(driver).send_keys("dstest7@tandatanganku.com")
+
+    delay(2)
+    wna.button_next2(driver).click()
+
+    if up_photo is "passport":
+        wna.input_img_passport(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+    elif up_photo is "kitas":
+        wna.input_img_kitas(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+
+    wna.webcam(driver).click()
+    delay(10)
+    wna.button_takefoto(driver).click()
+
+    wna.i_have_read_radio(driver).click()
+    delay(5)
+    wna.button_agree(driver).click()
+
+    delay(17)
+    wna.button_save_data(driver).click()
+
+    delay(3)
+
+
+def test_crp1_17(driver):
+    """its semi-automation because its input a captcha"""
+    test_crp1_16(driver, up_photo="kitas")
+
+
+def test_crp1_18(driver):
+    """its semi-automation because its input a captcha"""
+    test_crp1_10(driver, used=True)
+
+    wna.input_handphone(driver).send_keys("89977882983")
+    wna.input_email(driver).send_keys("dstest7@tandatanganku.com")
+
+    delay(2)
+    wna.button_next2(driver).click()
+
+    wna.input_img_passport(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+    wna.input_img_kitas(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+
+    wna.i_have_read_radio(driver).click()
+    delay(5)
+    wna.button_agree(driver).click()
+
+    delay(17)
+    wna.button_save_data(driver).click()
+
+    delay(5)
+
+
+def test_crp1_19(driver):
+    test_crp1_10(driver, used=True)
+
+    wna.input_handphone(driver).send_keys("89977882983")
+    wna.input_email(driver).send_keys("dstest7@tandatanganku.com")
+
+    delay(2)
+    wna.button_next2(driver).click()
+
+    wna.input_img_passport(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+    wna.input_img_kitas(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+
+    wna.webcam(driver).click()
+    delay(10)
+    wna.button_takefoto(driver).click()
+
+    wna.i_have_read_radio(driver).click()
+    delay(5)
+    wna.button_agree(driver).click()
+
+    delay(17)
+
+    wna.button_save_data(driver).click()
+
+    delay(3)
+
+
+# def test_crp1_20(driver):
+
+def test_crp1_21(driver):
+    test_crp1_10(driver, used=True)
+
+    wna.input_handphone(driver).send_keys("89977882983")
+    wna.input_email(driver).send_keys("dstest4@tandatanganku.com")
+
+    delay(2)
+    wna.button_next2(driver).click()
+
+    wna.input_img_passport(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+    wna.input_img_kitas(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+
+    wna.webcam(driver).click()
+    delay(10)
+    wna.button_takefoto(driver).click()
+
+    wna.i_have_read_radio(driver).click()
+    delay(5)
+    wna.button_agree(driver).click()
+
+    delay(17)
+
+    wna.button_save_data(driver).click()
+
+    delay(3)
+
+
+# def test_crp1_22(driver):

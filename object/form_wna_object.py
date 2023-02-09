@@ -71,3 +71,59 @@ def kitas_error(driver):
 
 def passport_error(driver):
     return driver.find_element(By.XPATH, "//*[@id='e_passport']")
+
+
+def input_email(driver):
+    return driver.find_element(By.XPATH, "//*[@id='email']")
+
+
+def input_handphone(driver):
+    return driver.find_element(By.XPATH, "//*[@id='handphone']")
+
+
+def email_err(driver):
+    return driver.find_element(By.XPATH, "//*[@id='e_email']")
+
+
+def phone_err(driver):
+    return driver.find_element(By.XPATH, "//*[@id='e_handphone']")
+
+
+def button_next2(driver):
+    return driver.find_element(By.XPATH, "//button[@onclick='step3()']")
+
+
+def invalid_email_or_phone(driver):
+    return driver.find_element(By.XPATH, "//input[contains(@class, 'is-invalid')]")
+
+
+def i_have_read_radio(driver):
+    return driver.find_element(By.XPATH, "/html/body/div[8]/form/div/div[4]/div[1]/div[7]/div/div/label/span")
+
+
+def webcam(driver):
+    return driver.find_element(By.XPATH, "//input[@value='Open WebCam']")
+
+
+def input_img_kitas(driver):
+    return driver.find_element(By.XPATH, "//*[@id='imgkitas']")
+
+
+def input_img_passport(driver):
+    return driver.find_element(By.XPATH, "//*[@id='imgpassport']")
+
+
+def button_agree(driver):
+    return driver.find_element(By.XPATH, "//button[contains(@onclick, 'cek')]")
+
+
+def button_takefoto(driver):
+    return driver.find_element(By.XPATH, "//*[@id='takefoto']")
+
+
+def button_save_data(driver):
+    return driver.find_element(By.XPATH, "//*[@id='ntp']")
+
+
+def swal(driver):
+    return driver.find_element(By.XPATH, "//*[@id='swal2-content']")

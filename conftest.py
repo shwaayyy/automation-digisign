@@ -6,8 +6,9 @@ import pytest
 from pytest_html import extras
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.utils import ChromeType
+from webdriver_manager.core.utils import ChromeType, OSType
 
 url = {
     "prod": "https://app.digisign.id",
@@ -22,7 +23,11 @@ robot = pyautogui
 
 def driver_manager(driver):
     if driver is "chrome":
-        return webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+        options = Options()
+        options.add_argument('--use-fake-ui-for-media-stream')
+        options.add_experimental_option("useAutomationExtension", False)
+        # options.add_argument('--use-fake-device-for-media-stream')
+        return webdriver.Chrome(options=options)
     elif driver is "firefox":
         return webdriver.Firefox()
 
@@ -49,7 +54,7 @@ def pytest_configure(config):
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(item):
     outcome = yield
     report = outcome.get_result()
     extra = getattr(report, "extra", [])
