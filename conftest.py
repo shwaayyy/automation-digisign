@@ -7,8 +7,6 @@ from pytest_html import extras
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.utils import ChromeType, OSType
 
 url = {
     "prod": "https://app.digisign.id",
@@ -22,7 +20,7 @@ url = {
 qa_team = {
     "wahyu": "Wahyu Hidayat",
     "aisy": "Rohadatul Aisy",
-    "latifah": "LATIFAH RAMADHANA M.E."
+    "latifah": "Latiah Ramadhana M.E."
 }
 
 robot = pyautogui

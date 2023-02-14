@@ -156,7 +156,7 @@ def test_crp1_9(driver):
 
     delay(10)
 
-    wna.input_kitas(driver).send_keys("12345678")
+    wna.input_kitas(driver).send_keys("87723839")
     wna.input_passport(driver).clear()
     wna.input_passport(driver).send_keys(Keys.ENTER)
 
@@ -177,7 +177,7 @@ def test_crp1_10(driver, **kwargs):
     used = kwargs.get("used", False)
     test_crp1_1(driver)
 
-    wna.input_kitas(driver).send_keys("12345678")
+    wna.input_kitas(driver).send_keys("87723839")
     wna.input_passport(driver).send_keys("123456789")
     wna.input_fullname(driver).send_keys("John Doe")
     wna.input_place_birth(driver).send_keys("Bangkok")
@@ -210,7 +210,7 @@ def test_crp1_10(driver, **kwargs):
 def test_crp1_11(driver):
     test_crp1_1(driver)
 
-    wna.input_kitas(driver).send_keys("12345678")
+    wna.input_kitas(driver).send_keys("87723839")
     wna.input_passport(driver).send_keys("123456789")
     wna.input_fullname(driver).send_keys("John Doe")
     wna.input_place_birth(driver).send_keys("Bangkok")
@@ -234,7 +234,7 @@ def test_crp1_11(driver):
 def test_crp1_12(driver):
     test_crp1_1(driver)
 
-    wna.input_kitas(driver).send_keys("12345678")
+    wna.input_kitas(driver).send_keys("87723839")
     wna.input_passport(driver).send_keys("123456789")
     wna.input_fullname(driver).send_keys("John Doe")
     wna.input_place_birth(driver).send_keys("Bangkok")
@@ -372,8 +372,8 @@ def test_crp1_21(driver):
     delay(2)
     wna.button_next2(driver).click()
 
-    wna.input_img_passport(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
-    wna.input_img_kitas(driver).send_keys("D:\\local\\automationTest\\file\\image.jpeg")
+    wna.input_img_passport(driver).send_keys("file/image.jpeg")
+    wna.input_img_kitas(driver).send_keys("file/image.jpeg")
 
     wna.webcam(driver).click()
     delay(10)
