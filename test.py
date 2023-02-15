@@ -94,4 +94,3 @@ def test_web6_2(driver, **kwargs):
             raise e
 
     delay(10)
-
